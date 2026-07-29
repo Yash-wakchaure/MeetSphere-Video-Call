@@ -30,6 +30,26 @@ const peerConfigConnections = {
     ]
 }
 
+const getDisplayMedia = () => {
+    if (navigator.mediaDevices?.getDisplayMedia) {
+        return navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices);
+    }
+
+    if (navigator.getDisplayMedia) {
+        return navigator.getDisplayMedia.bind(navigator);
+    }
+
+    if (navigator.webkitGetDisplayMedia) {
+        return navigator.webkitGetDisplayMedia.bind(navigator);
+    }
+
+    if (navigator.mozGetDisplayMedia) {
+        return navigator.mozGetDisplayMedia.bind(navigator);
+    }
+
+    return null;
+}
+
 export default function VideoMeetComponent() {
 
     // const { url } = useParams();
@@ -51,7 +71,7 @@ export default function VideoMeetComponent() {
 
     let [showModal, setModal] = useState(true);
 
-    let [screenAvailable, setScreenAvailable] = useState();
+    let [screenAvailable, setScreenAvailable] = useState(false);
 
     let [messages, setMessages] = useState([]);
 
@@ -111,7 +131,7 @@ export default function VideoMeetComponent() {
                 setAudioAvailable(false);
             }
 
-            if (navigator.mediaDevices.getDisplayMedia) {
+            if (getDisplayMedia()) {
                 setScreenAvailable(true);
             } else {
                 setScreenAvailable(false);
@@ -430,11 +450,19 @@ export default function VideoMeetComponent() {
 
     let getDislayMedia = () => {
         if (screen) {
-            if (navigator.mediaDevices.getDisplayMedia) {
-                navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+            const displayMedia = getDisplayMedia();
+
+            if (displayMedia) {
+                displayMedia({ video: true, audio: true })
                     .then(getDislayMediaSuccess)
                     .then((stream) => { })
-                    .catch((e) => console.log(e))
+                    .catch((e) => {
+                        console.log(e);
+                        setScreen(false);
+                    })
+            } else {
+                setScreen(false);
+                alert("Screen sharing is not supported by this mobile browser. Try Chrome desktop mode, another browser, or a native app.");
             }
         }
     }
@@ -446,6 +474,11 @@ export default function VideoMeetComponent() {
     }, [screen])
 
     let handleScreen = () => {
+        if (!screenAvailable) {
+            alert("Screen sharing is not supported by this mobile browser. Try Chrome desktop mode, another browser, or a native app.");
+            return;
+        }
+
         setScreen(!screen);
     }
 
@@ -514,10 +547,13 @@ export default function VideoMeetComponent() {
                             {audio === true ? <MicIcon /> : <MicOffIcon />}
                         </IconButton>
 
-                        {screenAvailable === true ?
-                            <IconButton onClick={handleScreen} style={{ color: "white" }}>
-                                {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
-                            </IconButton> : <></>}
+                        <IconButton
+                            onClick={handleScreen}
+                            title={screenAvailable ? "Share screen" : "Screen sharing not supported on this browser"}
+                            style={{ color: screenAvailable ? "white" : "gray" }}
+                        >
+                            {screen === true ? <StopScreenShareIcon /> : <ScreenShareIcon />}
+                        </IconButton>
 
                         <Badge badgeContent={newMessages} max={999} color='secondary'>
                             <IconButton onClick={() => setShowModal(!showModal)} style={{ color: "white" }}>
