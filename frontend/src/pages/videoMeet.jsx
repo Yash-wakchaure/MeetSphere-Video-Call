@@ -50,6 +50,8 @@ const getDisplayMedia = () => {
     return null;
 }
 
+const screenShareUnsupportedMessage = "This browser does not expose mobile screen sharing to web apps. Please compare your teacher's phone browser name/version, try Desktop site, or use an Android app build for true phone screen sharing.";
+
 export default function VideoMeetComponent() {
 
     // const { url } = useParams();
@@ -462,7 +464,7 @@ export default function VideoMeetComponent() {
                     })
             } else {
                 setScreen(false);
-                alert("Screen sharing is not supported by this mobile browser. Try Chrome desktop mode, another browser, or a native app.");
+                alert(screenShareUnsupportedMessage);
             }
         }
     }
@@ -475,7 +477,7 @@ export default function VideoMeetComponent() {
 
     let handleScreen = () => {
         if (!screenAvailable) {
-            alert("Screen sharing is not supported by this mobile browser. Try Chrome desktop mode, another browser, or a native app.");
+            alert(screenShareUnsupportedMessage);
             return;
         }
 
