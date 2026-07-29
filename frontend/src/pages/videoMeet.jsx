@@ -71,7 +71,7 @@ export default function VideoMeetComponent() {
 
     let [screen, setScreen] = useState();
 
-    let [showModal, setModal] = useState(true);
+    let [showModal, setShowModal] = useState(true);
 
     let [screenAvailable, setScreenAvailable] = useState(false);
 
@@ -79,7 +79,7 @@ export default function VideoMeetComponent() {
 
     let [message, setMessage] = useState("");
 
-    let [newMessages, setNewMessages] = useState(3);
+    let [newMessages, setNewMessages] = useState();
 
     let [askForUsername, setAskForUsername] = useState(true);
 
@@ -138,6 +138,8 @@ export default function VideoMeetComponent() {
             } else {
                 setScreenAvailable(false);
             }
+
+            
 
             if (videoAvailable || audioAvailable) {
                 const userMediaStream = await navigator.mediaDevices.getUserMedia({ video: videoAvailable, audio: audioAvailable });
@@ -506,6 +508,9 @@ export default function VideoMeetComponent() {
             {askForUsername == true ?
                 <div>
                     <h2>Enter into Lobby</h2>
+                    <p>
+        Screen Share API: {typeof navigator.mediaDevices?.getDisplayMedia}
+    </p>
                     <TextField id="outlined-basic" label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <Button variant="contained" onClick={connect}>Connect</Button>
 
