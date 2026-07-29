@@ -13,13 +13,14 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 
 import styles from "../styles/videoComponent.module.css";
+import server from '../environment';
 // console.log(styles);
 
 
 
 
 
-const server_url = "http://localhost:8000";
+const server_url = `${server}`;
 
 var connections = {};
 
