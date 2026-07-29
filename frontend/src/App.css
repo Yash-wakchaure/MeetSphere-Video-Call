@@ -1,11 +1,12 @@
 .landingPageContainer{
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   background: url("/background.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   color: white;
-
+  overflow-x: hidden;
 }
 
 .landingPageContainer nav{
@@ -17,34 +18,38 @@
 }
 
 .landingPageContainer nav h2{
-  font-size: 1.8rem;
+  font-size: clamp(1rem, 3vw, 1.8rem);
   font-weight: 500;
 }
 
 .landingPageContainer nav .navList {
   display: flex;
-  gap: 1.6rem;
+  gap: clamp(0.7rem, 2vw, 1.6rem);
   cursor: pointer;
-
+  align-items: center;
+  font-size: clamp(0.75rem, 2vw, 1rem);
 }
 
 .landingMainContainer {
   display: flex;
   justify-content: space-between;
-  padding-inline: 3rem;
-  height: 80vh;
+  gap: 2rem;
+  padding-inline: clamp(1.2rem, 5vw, 3rem);
+  min-height: calc(100vh - 6.5rem);
   align-items: center;
 }
 
 .landingMainContainer >div:nth-child(1){
-      font-size: 2.2rem;
+  flex: 1 1 18rem;
+  font-size: clamp(1.3rem, 4vw, 2.2rem);
+  max-width: 31rem;
 }
 
 .landingMainContainer >div:nth-child(1) div[role = 'button'] {
      background: #D97500 ;
      width: fit-content;
-     padding: 1rem;
-     border-radius: 20px;
+     padding: 0.85rem 1rem;
+     border-radius: 12px;
      margin-top: 1.9rem;  
 
 }
@@ -52,12 +57,51 @@
 .landingMainContainer >div:nth-child(1) div[role = 'button'] a {
    text-decoration: none;
    color: white;
-   font-size: 1.7rem;
+   font-size: clamp(0.95rem, 2vw, 1.7rem);
+}
+
+.landingMainContainer >div:nth-child(2){
+  flex: 1 1 18rem;
+  display: flex;
+  justify-content: center;
 }
 
 .landingMainContainer >div:nth-child(2) img{
- height: 80vh;
- width: auto;
+ width: min(100%, 34rem);
+ height: auto;
+ max-height: 70vh;
+ object-fit: contain;
+}
+
+@media (max-width: 700px) {
+  .landingPageContainer nav{
+    padding-block: 1rem;
+    gap: 1rem;
+  }
+
+  .landingMainContainer {
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    min-height: auto;
+    padding-block: 2rem;
+    text-align: left;
+  }
+
+  .landingMainContainer >div:nth-child(1){
+    flex: 0 1 auto;
+    width: 100%;
+  }
+
+  .landingMainContainer >div:nth-child(2){
+    flex: 0 1 auto;
+    width: 100%;
+  }
+
+  .landingMainContainer >div:nth-child(2) img{
+    width: min(100%, 22rem);
+    max-height: 48vh;
+  }
 }
 
 .navBar {
