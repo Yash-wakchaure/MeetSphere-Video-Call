@@ -509,7 +509,7 @@ export default function VideoMeetComponent() {
                 <div>
                     <h2>Enter into Lobby</h2>
                     <p>
-        Screen Share API: {typeof navigator.mediaDevices?.getDisplayMedia}
+       
     </p>
                     <TextField id="outlined-basic" label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <Button variant="contained" onClick={connect}>Connect</Button>
