@@ -29,6 +29,9 @@ export default function Authentication() {
     const [formState, setFormState] = React.useState(0);
 
     const [open, setOpen] = React.useState(false)
+    const [authImageUrl, setAuthImageUrl] = React.useState(() =>
+        `https://picsum.photos/1200/900?random=${Math.floor(Math.random() * 100000)}`
+    );
 
 
     const { handleRegister, handleLogin } = React.useContext(AuthContext);
@@ -68,15 +71,18 @@ export default function Authentication() {
             <Box component="main" sx={{ display: 'flex', height: '100vh' }}>
                 <CssBaseline />
                 <Box
+                    component="img"
+                    src={authImageUrl}
+                    alt=""
+                    onError={() => setAuthImageUrl("/background.png")}
                     sx={{
                         display: { xs: 'none', sm: 'block' },
                         width: { sm: '33.3333%', md: '58.3333%' },
-                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        height: '100vh',
+                        objectFit: 'cover',
+                        objectPosition: 'center',
                     }}
                 />
                 <Box
